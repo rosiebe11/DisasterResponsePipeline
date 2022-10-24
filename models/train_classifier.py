@@ -25,7 +25,7 @@ def load_data(database_filepath):
     from SQLite database into variables X and y.
     """
     
-    engine = create_engine('sqlite:///DisasterResponse.db')
+    engine = create_engine('sqlite:///{database_filepath}')
     df = pd.read_sql_table('DisasterResponse', engine)
     df.dropna()
     X = df.message
