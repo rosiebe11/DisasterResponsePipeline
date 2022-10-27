@@ -1,6 +1,7 @@
 import sys
 import nltk
 nltk.download(['punkt', 'wordnet'])
+nltk.download('omw-1.4')
 from sqlalchemy import create_engine
 import pickle 
 
@@ -25,7 +26,7 @@ def load_data(database_filepath):
     from SQLite database into variables X and y.
     """
     
-    engine = create_engine('sqlite:///{database_filepath}')
+    engine = create_engine('sqlite:///'+database_filepath)
     df = pd.read_sql_table('DisasterResponse', engine)
     df.dropna()
     X = df.message
@@ -84,8 +85,8 @@ def save_model(model, model_filepath):
     """
     Function to save the trained model into a pickle file.
     """
-    
-    pickle.dump(model,  open('model.pkl', 'wb'))
+
+    pickle.dump(model, open(model_filepath, 'wb'))
 
 
 def main():

@@ -1,6 +1,9 @@
 import json
 import plotly
 import pandas as pd
+import nltk
+import joblib
+nltk.download('omw-1.4')
 
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
@@ -8,7 +11,6 @@ from nltk.tokenize import word_tokenize
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
-from sklearn.externals import joblib
 from sqlalchemy import create_engine
 
 
@@ -30,7 +32,7 @@ engine = create_engine('sqlite:///../data/DisasterResponse.db')
 df = pd.read_sql_table('DisasterResponse', engine)
 
 # load model
-model = joblib.load("../models/your_model_name.pkl")
+model = joblib.load("../models/classifier.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
@@ -43,9 +45,16 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     
+    category_names = df.iloc[:,4:].columns
+    category_boolean = (df.iloc[:,4:] != 0).sum().values
+
+    num_category_count = (df.iloc[:,4:]).sum(axis=1).value_counts()
+    num_categories = (df.iloc[:,4:]).sum(axis=1).unique()
+
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
+        #Graph 1 - Genre
         {
             'data': [
                 Bar(
@@ -61,6 +70,44 @@ def index():
                 },
                 'xaxis': {
                     'title': "Genre"
+                }
+            }
+        }, 
+        # Graph 2 - category     
+        {
+            'data': [
+                Bar(
+                    x=category_names,
+                    y=category_boolean
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Categories',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Category",
+                }
+            }
+        },
+            # Graph 3 - number of categories     
+        {
+            'data': [
+                Bar(
+                    x=num_categories,
+                    y=num_category_count
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of number of classifications per message',
+                'yaxis': {
+                    'title': "Number of messages"
+                },
+                'xaxis': {
+                    'title': "Number of classifications",
                 }
             }
         }
