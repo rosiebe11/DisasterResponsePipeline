@@ -1,5 +1,11 @@
 # Disaster Response Pipeline Project
 
+## Introduction
+The aim of this project was to be able to dispher important disaster response messages more efficiently using machine learning algorithms. To do this, over 30,000 real-life messages were used, that had been encoded with 36 different disaster categories. Natural language processing and machine learning pipelines form a key element of the end product - being able to categorise different needs from the message input.
+
+## Files in the repository
+
+
 ### Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
 
