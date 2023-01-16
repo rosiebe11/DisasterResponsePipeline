@@ -5,12 +5,19 @@ The aim of this project was to be able to dispher important disaster response me
 
 ## Files in the repository
 run.py                         #Flask file that runs app
+
 master.html                    #main page of web app
+
 go.html                        #classification page of web app
+
 disaster_categories.csv        #data to process
+
 disaster_messages.csv          #data to process
+
 process_data.py
+
 DisasterResponse.db            #database to save clean data to
+
 train_classifier.py            #trains our classifier model
 
 ### Instructions:
